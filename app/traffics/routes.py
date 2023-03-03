@@ -1,4 +1,5 @@
 from flask import jsonify, request
+import random
 
 from app.extensions import db
 from app.traffics import bp
@@ -12,13 +13,20 @@ def get_all_traffics():
 
 @bp.route("/api/traffics", methods=["POST"])
 def create_traffic():
-  srcIp = request.form["srcIp"]
-  dstIp = request.form["dstIp"]
-  status = request.form["status"]
+  amount = request.form["amount"]
+  res = []
 
-  traffic = Traffic(srcIp, dstIp, status)
+  for _ in range(int(amount)):
+    srcIp = request.remote_addr
 
-  db.session.add(traffic)
-  db.session.commit()
+    # model to classified status here
+    status = random.choices(["anomaly", "normal"])[0]
 
-  return jsonify(traffic.serialize()), 201
+    traffic = Traffic(srcIp, status)
+
+    db.session.add(traffic)
+    db.session.commit()
+    res.append(traffic)
+
+  res = [ r.serialize() for r in res ]
+  return jsonify({ "response": res })
