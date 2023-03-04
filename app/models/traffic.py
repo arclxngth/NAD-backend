@@ -17,4 +17,5 @@ class Traffic(db.Model):
     return {
       "srcIp": self.srcIp,
       "status": self.status,
+      "createdAt": self.createdAt,
     }
