@@ -13,7 +13,6 @@ def create_app(config_class=Config):
   
   # Initialize Flask extensions
   db.init_app(app)
-
   migrate = Migrate(app, db, render_as_batch=False)
 
   jwt = JWTManager(app)
