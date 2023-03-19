@@ -16,6 +16,8 @@ def create_app(config_class=Config):
   migrate.init_app(app, db)
   bcrypt.init_app(app)
 
+  db.create_all()
+
   jwt = JWTManager(app)
 
   # Register blueprints
