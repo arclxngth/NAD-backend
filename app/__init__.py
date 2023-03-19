@@ -13,10 +13,11 @@ def create_app(config_class=Config):
   
   # Initialize Flask extensions
   db.init_app(app)
-  migrate.init_app(app, db)
+  migrate.init_app(app, db, render_as_batch=False)
   bcrypt.init_app(app)
-
-  db.create_all()
+  
+  # with app.app_context():
+  #   db.create_all()
 
   jwt = JWTManager(app)
 

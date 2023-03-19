@@ -3,11 +3,10 @@ from flask_bcrypt import Bcrypt
 from sqlalchemy import DateTime
 from sqlalchemy.sql import func
 from app.extensions import db
-from flask_login import UserMixin
 
 bcrypt = Bcrypt()
 
-class User(UserMixin, db.Model):
+class User(db.Model):
   id = db.Column(db.String(36), primary_key=True, default=str(uuid.uuid4()), unique=True, nullable=False)
   username = db.Column(db.String(80), unique=True, nullable=False)
   password = db.Column(db.String(80), nullable=False)
