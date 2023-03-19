@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from flask_migrate import Migrate
 
 from config import Config
-from app.extensions import db
+from app.extensions import db, migrate, bcrypt
+from app.models.user import User
 
 def create_app(config_class=Config):
   app = Flask(__name__)
@@ -13,7 +13,8 @@ def create_app(config_class=Config):
   
   # Initialize Flask extensions
   db.init_app(app)
-  migrate = Migrate(app, db, render_as_batch=False)
+  migrate.init_app(app, db)
+  bcrypt.init_app(app)
 
   jwt = JWTManager(app)
 

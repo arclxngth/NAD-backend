@@ -7,15 +7,21 @@ from app.traffics import bp
 from app.models.traffic import Traffic
 from app.traffics.service import nad_predict
 
+from app.auth.service import validate_user
+
 nLine = len(linecache.getlines("app/common/dataset"))
 
 @bp.route("/api/traffics", methods=["GET"])
 def get_all_traffics():
+  validate_user()
+
   traffics = Traffic.query.all()
   return jsonify([ traffic.serialize() for traffic in traffics ])
 
 @bp.route("/api/traffics", methods=["POST"])
 def create_traffic():
+  validate_user()
+  
   res = []
   amount = int(request.form["amount"])
 

@@ -1,9 +1,8 @@
 from flask import jsonify, request
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from flask_jwt_extended import create_access_token
 
 from app.auth import bp
 from app.models.user import User
-
 
 @bp.route("/api/login", methods=["POST"])
 def login():
@@ -23,9 +22,3 @@ def login():
 
     return jsonify({ "token": token }), 200
   
-@bp.route('/api/me', methods=['GET'])
-@jwt_required()
-def me():
-  user_id = get_jwt_identity()
-  user = User.query.get(user_id)
-  return jsonify(user.serialize()), 200
